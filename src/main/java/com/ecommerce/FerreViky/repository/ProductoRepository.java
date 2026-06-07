@@ -16,6 +16,8 @@ public interface ProductoRepository extends JpaRepository<Producto,Long>{
     //Esta funcion es equivalente a SELECT marca FROM Producto;
     //Indica que vamos a devolver una Lista de Productos
 
+    List<Producto> findByCategoria(String categoria);
+
     //Optional permite tratar nulls
     Optional<Producto> findById(Long id);
     //Indica que vamos a devolver un producto

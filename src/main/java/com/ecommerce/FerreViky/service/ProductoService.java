@@ -38,6 +38,11 @@ public class ProductoService {
         return productoRepository.findByMarca(marca);
     }
 
+    //Devuleve una Lista de productos en base a su categoria
+    public List<Producto> obtenerProductoPorCategoria(String categoria){
+        return productoRepository.findByCategoria(categoria);
+    }
+
     public boolean existeProductoConId(Long id){
         return productoRepository.existsById(id);
     }

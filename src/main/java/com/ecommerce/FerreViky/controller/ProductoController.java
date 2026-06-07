@@ -87,4 +87,9 @@ public class ProductoController {
     }
 
 
+    @GetMapping("/categorias/{categorias}") //Se recomienda que el recurso debe ser un sustantivo plural
+    public ResponseEntity<List<Producto>> obtenerProductosPorCategorias(@PathVariable String categoria){//@PathVariable indica que la marca vendra asi /marcas/Trupper
+        List<Producto> productosPorCategoria = productoService.obtenerProductoPorCategoria(categoria);
+        return ResponseEntity.ok(productosPorCategoria);
+    }
 }
