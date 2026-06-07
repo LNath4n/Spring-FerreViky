@@ -18,7 +18,9 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Email(message = "Correo invalido") //Se encarga de validad el correo
+    @Column(unique = true) //Garantiza que el correo sea unico
     private String email;
 
     private String password;

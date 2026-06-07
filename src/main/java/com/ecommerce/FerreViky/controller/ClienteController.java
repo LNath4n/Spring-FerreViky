@@ -1,5 +1,6 @@
 package com.ecommerce.FerreViky.controller;
 
+import com.ecommerce.FerreViky.dto.CreacionDeClienteRespuestaDto;
 import com.ecommerce.FerreViky.dto.LoginClienteDto;
 import com.ecommerce.FerreViky.service.ClienteService;
 import lombok.AllArgsConstructor;
@@ -13,12 +14,21 @@ public class ClienteController {
 
     private final ClienteService clienteService; //Si pones el @AllArgsConstructor ya no te preocupes por inicializarlo en constructor
 
-    @PostMapping()
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginClienteDto dto){
-        //Por que un objeto DTO y no un objeto cliente..?
-        //Por que no tienen los mismos datos
         boolean ok = clienteService.login(dto);
         if (!ok) return ResponseEntity.status(401).body("Credenciales incorrectas");
         return ResponseEntity.ok("Login exitoso");
     }
+
+    @PostMapping
+    public ResponseEntity<CreacionDeClienteRespuestaDto> crearCliente(@RequestBody LoginClienteDto dto){
+        return ResponseEntity.status(201).body(clienteService.guardarCliente(dto));
+    }
+
+
+    //En java hay 2 formas de tratar las excepciones
+    //Uno mismo con try/catch o aventarlas para arriba xd
+    //Aqui recibimos el error de el ClienteService
+    //Pero Spring lo trata solito en el GlobalExceptionHandler
 }
