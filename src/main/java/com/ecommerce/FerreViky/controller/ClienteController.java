@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/clientes")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class ClienteController {
 
     private final ClienteService clienteService; //Si pones el @AllArgsConstructor ya no te preocupes por inicializarlo en constructor
