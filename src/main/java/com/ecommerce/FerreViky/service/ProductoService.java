@@ -2,8 +2,11 @@ package com.ecommerce.FerreViky.service;
 
 import com.ecommerce.FerreViky.models.Producto;
 import com.ecommerce.FerreViky.repository.ProductoRepository;
+import com.ecommerce.FerreViky.specification.ProductoSpecification;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +59,18 @@ public class ProductoService {
     //Jpa tambien trae el metodo para borrar el producto en base al id
     public void eliminarProductoPorId(Long id) {
         productoRepository.deleteById(id);
+    }
+
+    public List<Producto> filtrar(String nombre, String categoria, String marca,
+                                  BigDecimal precioMin, BigDecimal precioMax) {
+        Specification<Producto> spec = Specification
+                .where(ProductoSpecification.tieneNombre(nombre))
+                .and(ProductoSpecification.perteneceCategoria(categoria))
+                .and(ProductoSpecification.perteneceMarca(marca))
+                .and(ProductoSpecification.cuestaMasDe(precioMin))
+                .and(ProductoSpecification.cuestaMenosDe(precioMax));
+
+        return productoRepository.findAll(spec);
     }
 
 }

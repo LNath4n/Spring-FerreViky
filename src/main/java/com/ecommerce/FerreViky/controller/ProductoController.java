@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -91,5 +92,24 @@ public class ProductoController {
     public ResponseEntity<List<Producto>> obtenerProductosPorCategorias(@PathVariable String categoria){//@PathVariable indica que la marca vendra asi /marcas/Trupper
         List<Producto> productosPorCategoria = productoService.obtenerProductoPorCategoria(categoria);
         return ResponseEntity.ok(productosPorCategoria);
+    }
+
+    @GetMapping("/busqueda")
+    public ResponseEntity<List<Producto>> buscar(
+            @RequestParam(required = false) String marca,
+            @RequestParam(required = false) String categoria,
+            @RequestParam(required = false) BigDecimal precioMax,
+            @RequestParam(required = false) BigDecimal precioMin,
+            @RequestParam(required = false) String nombre) {
+
+        //Request Param captura datos dentro de la URL
+        //GET /productos/busqueda?marca=Truper&precioMax=500
+        //GET /productos/busqueda?categoria=herramientas&nombre=martillo
+        //GET /productos/busqueda  ← devuelve todo
+
+        //Requeried = false es por que pueden estar o no, los voy a combinar xd
+
+        List<Producto> productos = productoService.filtrar(nombre, categoria, marca, precioMin, precioMax);
+        return ResponseEntity.ok(productos);
     }
 }
