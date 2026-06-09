@@ -1,7 +1,7 @@
 package com.ecommerce.FerreViky.controller;
 
-import com.ecommerce.FerreViky.dto.CreacionDeClienteRespuestaDto;
-import com.ecommerce.FerreViky.dto.LoginClienteDto;
+import com.ecommerce.FerreViky.dto.cliente.CreacionDeClienteRespuestaDto;
+import com.ecommerce.FerreViky.dto.cliente.LoginClienteDto;
 import com.ecommerce.FerreViky.service.ClienteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

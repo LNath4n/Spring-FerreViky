@@ -1,7 +1,7 @@
 package com.ecommerce.FerreViky.mapper;
 
-import com.ecommerce.FerreViky.dto.CreacionDeClienteRespuestaDto;
-import com.ecommerce.FerreViky.dto.LoginClienteDto;
+import com.ecommerce.FerreViky.dto.cliente.CreacionDeClienteRespuestaDto;
+import com.ecommerce.FerreViky.dto.cliente.LoginClienteDto;
 import com.ecommerce.FerreViky.models.Cliente;
 import org.springframework.stereotype.Component;
 

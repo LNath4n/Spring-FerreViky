@@ -1,5 +1,6 @@
 package com.ecommerce.FerreViky.service;
 
+import com.ecommerce.FerreViky.dto.producto.ProductoFiltroRequest;
 import com.ecommerce.FerreViky.models.Producto;
 import com.ecommerce.FerreViky.repository.ProductoRepository;
 import com.ecommerce.FerreViky.specification.ProductoSpecification;
@@ -61,14 +62,13 @@ public class ProductoService {
         productoRepository.deleteById(id);
     }
 
-    public List<Producto> filtrar(String nombre, String categoria, String marca,
-                                  BigDecimal precioMin, BigDecimal precioMax) {
+    public List<Producto> filtrar(ProductoFiltroRequest filtro) {
         Specification<Producto> spec = Specification
-                .where(ProductoSpecification.tieneNombre(nombre))
-                .and(ProductoSpecification.perteneceCategoria(categoria))
-                .and(ProductoSpecification.perteneceMarca(marca))
-                .and(ProductoSpecification.cuestaMasDe(precioMin))
-                .and(ProductoSpecification.cuestaMenosDe(precioMax));
+                .where(ProductoSpecification.tieneNombre(filtro.nombre()))
+                .and(ProductoSpecification.perteneceCategoria(filtro.categoria()))
+                .and(ProductoSpecification.perteneceMarca(filtro.marca()))
+                .and(ProductoSpecification.cuestaMasDe(filtro.precioMin()))
+                .and(ProductoSpecification.cuestaMenosDe(filtro.precioMax()));
 
         return productoRepository.findAll(spec);
     }

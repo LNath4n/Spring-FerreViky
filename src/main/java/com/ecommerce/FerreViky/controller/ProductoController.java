@@ -1,5 +1,6 @@
 package com.ecommerce.FerreViky.controller;
 
+import com.ecommerce.FerreViky.dto.producto.ProductoFiltroRequest;
 import com.ecommerce.FerreViky.models.Producto;
 import com.ecommerce.FerreViky.service.ProductoService;
 import jakarta.validation.Valid;
@@ -96,20 +97,8 @@ public class ProductoController {
 
     @GetMapping("/busqueda")
     public ResponseEntity<List<Producto>> buscar(
-            @RequestParam(required = false) String marca,
-            @RequestParam(required = false) String categoria,
-            @RequestParam(required = false) BigDecimal precioMax,
-            @RequestParam(required = false) BigDecimal precioMin,
-            @RequestParam(required = false) String nombre) {
-
-        //Request Param captura datos dentro de la URL
-        //GET /productos/busqueda?marca=Truper&precioMax=500
-        //GET /productos/busqueda?categoria=herramientas&nombre=martillo
-        //GET /productos/busqueda  ← devuelve todo
-
-        //Requeried = false es por que pueden estar o no, los voy a combinar xd
-
-        List<Producto> productos = productoService.filtrar(nombre, categoria, marca, precioMin, precioMax);
+            @ModelAttribute ProductoFiltroRequest filtro) {
+        List<Producto> productos = productoService.filtrar(filtro);
         return ResponseEntity.ok(productos);
     }
 

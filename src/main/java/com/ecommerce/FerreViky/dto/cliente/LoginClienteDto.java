@@ -1,4 +1,4 @@
-package com.ecommerce.FerreViky.dto;
+package com.ecommerce.FerreViky.dto.cliente;
 
 public record LoginClienteDto(
         String email,

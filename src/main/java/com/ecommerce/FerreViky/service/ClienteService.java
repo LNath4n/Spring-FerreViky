@@ -1,7 +1,7 @@
 package com.ecommerce.FerreViky.service;
 
-import com.ecommerce.FerreViky.dto.LoginClienteDto;
-import com.ecommerce.FerreViky.dto.CreacionDeClienteRespuestaDto;
+import com.ecommerce.FerreViky.dto.cliente.LoginClienteDto;
+import com.ecommerce.FerreViky.dto.cliente.CreacionDeClienteRespuestaDto;
 import com.ecommerce.FerreViky.excepctions.ClienteExceptions;
 import com.ecommerce.FerreViky.mapper.ClienteMappers;
 import com.ecommerce.FerreViky.models.Cliente;
