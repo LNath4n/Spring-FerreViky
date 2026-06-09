@@ -112,4 +112,13 @@ public class ProductoController {
         List<Producto> productos = productoService.filtrar(nombre, categoria, marca, precioMin, precioMax);
         return ResponseEntity.ok(productos);
     }
+
+    @GetMapping("/marcas")
+    public List<String> obtenerMarcas(){
+        return productoService.obtenerMarcas();
+    }
+    @GetMapping("/categorias")
+    public List<String> obtenerCategorias(){
+        return productoService.obtenerCategorias();
+    }
 }

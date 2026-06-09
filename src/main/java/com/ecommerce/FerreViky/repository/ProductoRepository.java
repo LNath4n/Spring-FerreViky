@@ -3,6 +3,7 @@ import com.ecommerce.FerreViky.models.Producto;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,4 +28,11 @@ public interface ProductoRepository extends JpaRepository<Producto,Long>, JpaSpe
 
     boolean existsById(Long id);
 
+    //Me da todas las marcas jeje
+    @Query("SELECT DISTINCT p.marca FROM Producto p")
+    List<String> obtenerMarcasDistintas();
+
+    //Me da todas las categorias jeje
+    @Query("SELECT DISTINCT p.categoria FROM Producto p")
+    List<String> obtenerCategoriasDistintas();
 }

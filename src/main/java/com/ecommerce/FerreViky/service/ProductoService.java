@@ -73,4 +73,11 @@ public class ProductoService {
         return productoRepository.findAll(spec);
     }
 
+    public List<String> obtenerCategorias(){
+        return productoRepository.obtenerCategoriasDistintas();
+    }
+
+    public List<String> obtenerMarcas(){
+        return productoRepository.obtenerMarcasDistintas();
+    }
 }
