@@ -1,6 +1,7 @@
 package com.ecommerce.FerreViky.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,8 @@ public class Producto { //Cada objeto "producto" es una fila de la tabla product
     @Column(length = 50) //VARCHAR(50)
     private String categoria;
 
+    @Min(value = 0, message = "El stock no puede ser negativo")
+    @Column(nullable = false)
     private Integer stock;
 
     @Column(precision = 10, scale = 2, nullable = false) //No permite nulos
