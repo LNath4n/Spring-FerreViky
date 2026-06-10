@@ -27,6 +27,8 @@ public class Producto { //Cada objeto "producto" es una fila de la tabla product
     @Column(length = 50) //VARCHAR(50)
     private String categoria;
 
+    private Integer stock;
+
     @Column(precision = 10, scale = 2, nullable = false) //No permite nulos
     private BigDecimal precioNormal;
 
