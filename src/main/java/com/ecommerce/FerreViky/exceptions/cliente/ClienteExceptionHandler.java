@@ -16,4 +16,10 @@ public class ClienteExceptionHandler {
     public ResponseEntity<String> handleClienteNoEncontrado(ClienteExceptions.ClienteNoEncontradoException ex) {
         return ResponseEntity.status(404).body(ex.getMessage());
     }
+
+
+    @ExceptionHandler(ClienteExceptions.CredencialesInvalidasException.class)
+    public ResponseEntity<String> handleCredencialesInvalidas(ClienteExceptions.CredencialesInvalidasException ex) {
+        return ResponseEntity.status(401).body(ex.getMessage());
+    }
 }

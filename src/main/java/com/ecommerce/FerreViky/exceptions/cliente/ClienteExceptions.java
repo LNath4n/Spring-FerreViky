@@ -16,4 +16,11 @@ public class ClienteExceptions {
             super("No se encontró cliente con id " + id);
         }
     }
+
+    public static class CredencialesInvalidasException extends RuntimeException {
+        public CredencialesInvalidasException() {
+            super("Credenciales Incorrectas");
+        }
+    }
+
 }

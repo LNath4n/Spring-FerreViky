@@ -38,59 +38,44 @@ class ClienteServiceTest {
 
 
     @Test
-    public void login_deberiaRetornarTrue_cuandoEmailExisteYPasswordCoincide(){
-        // Dado (Given)
+    public void login_deberiaRetornarId_cuandoEmailExisteYPasswordCoincide() {
+        // Given
         LoginClienteDto dto = new LoginClienteDto("tilin@gmail.com", "secreto123");
-        /// Datos de entrada
 
         Cliente cliente = new Cliente();
+        cliente.setId(42L);
         cliente.setEmail("tilin@gmail.com");
         cliente.setPassword("secreto123");
-        ///El objeto que vendria de la base de datos
 
-
-        // Simulas el repositorio, NO el servicio
         Mockito.when(clienteRepository.findByEmail(dto.email()))
                 .thenReturn(java.util.Optional.of(cliente));
-        ///Cuando alguien llame a la funcion findByEmail le devolvemos este Optional que es lo que regresa el Repository
 
+        // When
+        Long resultado = clienteService.login(dto);
 
-        // Cuando (When)
-        boolean resultado = clienteService.login(dto);
-        /// Llamada al metodo a probar
-
-
-        // Entonces (Then)
-        assertTrue(resultado); ///Verifica que si se pudo logear
+        // Then
+        assertEquals(42L, resultado);
         Mockito.verify(clienteRepository, Mockito.times(1)).findByEmail(dto.email());
-        ///Verifica que si se llamo el numero necesario de veces
     }
 
     @Test
-    public void login_deberiaRetornarFalse_cuandoEmailExistePeroPasswordNo(){
+    public void login_deberiaLanzarExcepcion_cuandoEmailExistePeroPasswordNo() {
+        // Given
         LoginClienteDto dto = new LoginClienteDto("tilin@gmail.com", "secreto123");
 
         Cliente cliente = new Cliente();
         cliente.setEmail("tilin@gmail.com");
         cliente.setPassword("123secreto");
-        ///El objeto que vendria de la base de datos
 
-
-        // Simulas el repositorio, NO el servicio
         Mockito.when(clienteRepository.findByEmail(dto.email()))
                 .thenReturn(java.util.Optional.of(cliente));
-        ///Cuando alguien llame a la funcion findByEmail le devolvemos este Optional que es lo que regresa el Repository
 
+        // When / Then
+        assertThrows(ClienteExceptions.CredencialesInvalidasException.class, () -> {
+            clienteService.login(dto);
+        });
 
-        // Cuando (When)
-        boolean resultado = clienteService.login(dto);
-        /// Llamada al metodo a probar
-
-
-        // Entonces (Then)
-        assertFalse(resultado); ///Verifica que si se pudo logear
         Mockito.verify(clienteRepository, Mockito.times(1)).findByEmail(dto.email());
-        ///Verifica que si se llamo el numero necesario de veces
     }
 
     @Test

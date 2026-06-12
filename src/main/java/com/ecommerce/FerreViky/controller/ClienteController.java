@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/clientes")
 @AllArgsConstructor
@@ -30,17 +32,16 @@ public class ClienteController {
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Login exitoso",
-                    content = @Content(schema = @Schema(example = "Login exitoso"))),
+                    content = @Content(schema = @Schema(example = "{\"id\": 1}"))),
             @ApiResponse(responseCode = "401", description = "Credenciales incorrectas",
                     content = @Content(schema = @Schema(example = "Credenciales incorrectas"))),
             @ApiResponse(responseCode = "404", description = "No existe cliente con ese email",
                     content = @Content(schema = @Schema(example = "No se encontró cliente con email x@x.com")))
     })
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginClienteDto dto) {
-        boolean ok = clienteService.login(dto);
-        if (!ok) return ResponseEntity.status(401).body("Credenciales incorrectas");
-        return ResponseEntity.ok("Login exitoso");
+    public ResponseEntity<Map<String, Long>> login(@Valid @RequestBody LoginClienteDto dto) {
+        Long id = clienteService.login(dto);
+        return ResponseEntity.ok(Map.of("id", id));
     }
 
     @Operation(

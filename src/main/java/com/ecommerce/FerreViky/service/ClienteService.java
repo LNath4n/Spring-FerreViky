@@ -24,21 +24,25 @@ public class ClienteService {
     private final CarritoRepository carritoRepository;
 
     /**
-     * Verifica si las credenciales del cliente son válidas.
+     * Verifica las credenciales del cliente y retorna su ID.
      *
      * <p>La comparación de password es en texto plano por ahora.
      * Cuando se integre Spring Security, esto se reemplazará con
      * {@code passwordEncoder.matches(dto.password(), cliente.getPassword())}.
      *
      * @param dto DTO con email y password del cliente
-     * @return {@code true} si el password coincide, {@code false} si no
+     * @return ID del cliente si las credenciales son válidas
      * @throws ClienteExceptions.ClienteNoEncontradoException si no existe cliente con ese email
+     * @throws ClienteExceptions.CredencialesInvalidasException si el password no coincide
      */
-    public boolean login(LoginClienteDto dto) {
+    public Long login(LoginClienteDto dto) {
         Cliente cliente = clienteRepository.findByEmail(dto.email())
                 .orElseThrow(() -> new ClienteExceptions.ClienteNoEncontradoException(dto.email()));
 
-        return cliente.getPassword().equals(dto.password());
+        if (!cliente.getPassword().equals(dto.password()))
+            throw new ClienteExceptions.CredencialesInvalidasException();
+
+        return cliente.getId();
     }
 
     /**
