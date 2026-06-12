@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+
 //Estas 4 etiquetas nos permiten no tener que escribir a mano los setters getters y constructores nada mas
 @Getter //Ya no pongo getid get nombre get todos etc
 @Setter
@@ -15,29 +17,50 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Entity //Se refiere a que esta CLASE de Java es una TABLA de la BD
 public class Producto { //Cada objeto "producto" es una fila de la tabla producto :)
-    @Id //Indica que esta sera la llave primaria de la tabla
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //Indica que la tabla es quien maneja genera el id
-    private Long id; //Id del producto
 
-    @Column(name = "nombre_producto", nullable = false, length = 100) //Esta linea es lo mismo que decir VARCHAR(100) not null
-    private String nombreProducto;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(nullable = false, length = 50) // Lo mismo que decir VARCHAR(50) not null marca
+    @Column(name = "codigo")
+    private String codigo;
+
+    @Column(name = "clave", nullable = false, unique = true)
+    private String clave;
+
+    @Column(name = "descripcion")
+    private String descripcion;
+
+    @Column(name = "margen_mercado")
+    private String margenMercado;
+
+    @Column(name = "caja")
+    private String caja;
+
+    @Column(name = "master")
+    private String master;
+
+    @Column(name = "unidad")
+    private String unidad;
+
+    @Column(name = "ean")
+    private String ean;
+
+    @Column(name = "precio_mayoreo_iva", precision = 12, scale = 2)
+    private BigDecimal precioMayoreoIva;
+
+    @Column(name = "precio_distribuidor_iva", precision = 12, scale = 2)
+    private BigDecimal precioDistribuidorIva;
+
+    @Column(name = "precio_publico_iva", precision = 12, scale = 2)
+    private BigDecimal precioPublicoIva;
+
+    @Column(name = "marca")
     private String marca;
 
-    @Column(length = 50) //VARCHAR(50)
-    private String categoria;
+    // FK nullable: no todos los productos pertenecen a un GrupoDeProductos
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "producto_generico_id", nullable = true)
+    private GrupoDeProductos grupoDeProductos;
 
-    @Min(value = 0, message = "El stock no puede ser negativo")
-    @Column(nullable = false)
-    private Integer stock;
-
-    @Column(precision = 10, scale = 2, nullable = false) //No permite nulos
-    private BigDecimal precioNormal;
-
-    @Column(precision = 10, scale = 2) //Permite nulos
-    private BigDecimal precioClientes;
-
-    //Si corrres la aplicacion sin tener creadas las tablas Spring automaticamente crea las tablas jsjs
-    //Es en mi opinion mas sencillo que estar poniendo VARCHAR(100) etc Spring solito lo hace
 }
