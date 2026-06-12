@@ -1,4 +1,4 @@
-package com.ecommerce.FerreViky.excepctions;
+package com.ecommerce.FerreViky.exceptions.cliente;
 public class ClienteExceptions {
 
     public static class EmailYaExisteException extends RuntimeException {
@@ -10,6 +10,10 @@ public class ClienteExceptions {
     public static class ClienteNoEncontradoException extends RuntimeException {
         public ClienteNoEncontradoException(String email) {
             super("No se encontró cliente con email " + email);
+        }
+
+        public ClienteNoEncontradoException(Long id) {
+            super("No se encontró cliente con id " + id);
         }
     }
 }

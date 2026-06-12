@@ -1,4 +1,5 @@
 package com.ecommerce.FerreViky.repository;
+
 import com.ecommerce.FerreViky.models.Producto;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,31 +9,32 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProductoRepository extends JpaRepository<Producto,Long>, JpaSpecificationExecutor<Producto> {
-    //Este archivo DEFINE las Queries que vamos a ocupar
-    //Spring trae metodos que son equivalentes a Queries
-    //Por ejemplo findAll() es lo mismo que SELECT * FROM ....
-    //Tenemos que especificarle que tabla es <Producto> y el tipo llave primaria de este <Long>
-
+public interface ProductoRepository extends JpaRepository<Producto, Long>, JpaSpecificationExecutor<Producto> {
+    // JpaSpecificationExecutor habilita findAll(Specification<T>) para el filtrado dinámico.
+    // Sin esta interfaz, las JPA Specifications no funcionan aunque las definas.
 
     List<Producto> findByMarca(String marca);
-    //Esta funcion es equivalente a SELECT marca FROM Producto;
-    //Indica que vamos a devolver una Lista de Productos
 
     List<Producto> findByCategoria(String categoria);
 
-    //Optional permite tratar nulls
     Optional<Producto> findById(Long id);
-    //Indica que vamos a devolver un producto
-    //Es lo mismo que SELECT * FROM Producto where Id =....
 
     boolean existsById(Long id);
 
-    //Me da todas las marcas jeje
+    /**
+     * Retorna las marcas únicas presentes en el catálogo.
+     *
+     * <p>Se usa JPQL con DISTINCT en vez de cargar todos los productos y filtrar en memoria,
+     * lo que evita traer columnas innecesarias cuando el catálogo crece.
+     */
     @Query("SELECT DISTINCT p.marca FROM Producto p")
     List<String> obtenerMarcasDistintas();
 
-    //Me da todas las categorias jeje
+    /**
+     * Retorna las categorías únicas presentes en el catálogo.
+     *
+     * @see #obtenerMarcasDistintas() misma razón para usar JPQL con DISTINCT
+     */
     @Query("SELECT DISTINCT p.categoria FROM Producto p")
     List<String> obtenerCategoriasDistintas();
 }
