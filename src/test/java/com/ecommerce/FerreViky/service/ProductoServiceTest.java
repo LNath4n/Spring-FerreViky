@@ -1,6 +1,6 @@
 package com.ecommerce.FerreViky.service;
 
-import com.ecommerce.FerreViky.dto.producto.ProductoDTO.ProductoResponse;
+import com.ecommerce.FerreViky.dto.producto.ProductoDTO;
 import com.ecommerce.FerreViky.exceptions.productos.ProductosExceptions;
 import com.ecommerce.FerreViky.models.Producto;
 import com.ecommerce.FerreViky.repository.ProductoRepository;
