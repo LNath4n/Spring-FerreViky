@@ -1,5 +1,6 @@
 package com.ecommerce.FerreViky.controller;
 
+import com.ecommerce.FerreViky.dto.GruposDeProductos.GruposDeProductosDTO.GrupoPublicoResponse;
 import com.ecommerce.FerreViky.dto.producto.ProductoDTO;
 import com.ecommerce.FerreViky.dto.producto.ProductoDTO;
 import com.ecommerce.FerreViky.models.Producto;
@@ -43,9 +44,22 @@ public class ProductoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductoPublicoResponse> obtenerPorId(@PathVariable Long id){
+    public ResponseEntity<ProductoPublicoResponse> obtenerPorId(@PathVariable Long id) {
         ProductoPublicoResponse producto = productoService.obtenerProductoPorId(id);
         return ResponseEntity.ok(producto);
     }
 
+    @GetMapping("/grupos")
+    public Page<GrupoPublicoResponse> obtenerTodosLosGrupos(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productoService.obtenerTodosLosGrupos(pageable);
+    }
+
+    @GetMapping("/grupos/{id}")
+    public ResponseEntity<GrupoPublicoResponse> obtenerGrupoPorId(@PathVariable Long id) {
+        GrupoPublicoResponse grupoPublicoResponse = productoService.obtenerGrupoPorId(id);
+        return ResponseEntity.ok(grupoPublicoResponse);
+    }
 }

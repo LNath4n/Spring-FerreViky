@@ -11,4 +11,9 @@ public class ProductosExceptionHandler {
     public ResponseEntity<String> handleProductoNoEncontrado(ProductosExceptions.ProductoNoEncontradoException ex) {
         return ResponseEntity.status(404).body(ex.getMessage());
     }
+
+    @ExceptionHandler(ProductosExceptions.GrupoNoEncontradoException.class)
+    public ResponseEntity<String> handleGrupoDeProductoNoEncontrado(ProductosExceptions.GrupoNoEncontradoException ex) {
+        return ResponseEntity.status(404).body(ex.getMessage());
+    }
 }

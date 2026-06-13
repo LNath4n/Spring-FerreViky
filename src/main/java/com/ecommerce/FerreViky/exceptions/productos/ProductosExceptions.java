@@ -7,4 +7,10 @@ public class ProductosExceptions {
             super("No se encontró producto con id : " + id);
         }
     }
+
+    public static class GrupoNoEncontradoException extends RuntimeException {
+        public GrupoNoEncontradoException(Long id) {
+            super("No se encontró grupo de productos con id : " + id);
+        }
+    }
 }

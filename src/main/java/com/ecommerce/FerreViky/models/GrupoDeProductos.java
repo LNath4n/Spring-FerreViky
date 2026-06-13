@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class GrupoDeProductos {
     private String palabrasComunes;
 
     @OneToMany(mappedBy = "grupoDeProductos", cascade = CascadeType.ALL)
+    @BatchSize(size = 50)
     private List<Producto> estilos;
 
 }
