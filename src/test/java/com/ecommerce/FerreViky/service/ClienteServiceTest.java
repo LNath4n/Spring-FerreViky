@@ -10,6 +10,7 @@ import com.ecommerce.FerreViky.models.Cliente;
 import com.ecommerce.FerreViky.repository.CarritoRepository;
 import com.ecommerce.FerreViky.repository.ClienteRepository;
 import com.ecommerce.FerreViky.repository.ProductoRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("ClienteService - Pruebas unitarias")
 class ClienteServiceTest {
 
     @Mock
@@ -34,10 +36,11 @@ class ClienteServiceTest {
     private CarritoRepository carritoRepository;
 
     @InjectMocks
-    private ClienteService clienteService; //Esta es la instancia a probar
+    private ClienteService clienteService;
 
 
     @Test
+    @DisplayName("login() → retorna el ID cuando el email existe y el password coincide")
     public void login_deberiaRetornarId_cuandoEmailExisteYPasswordCoincide() {
         // Given
         LoginClienteDto dto = new LoginClienteDto("tilin@gmail.com", "secreto123");
@@ -59,6 +62,7 @@ class ClienteServiceTest {
     }
 
     @Test
+    @DisplayName("login() → lanza CredencialesInvalidasException cuando el password no coincide")
     public void login_deberiaLanzarExcepcion_cuandoEmailExistePeroPasswordNo() {
         // Given
         LoginClienteDto dto = new LoginClienteDto("tilin@gmail.com", "secreto123");
@@ -79,22 +83,21 @@ class ClienteServiceTest {
     }
 
     @Test
-    public void login_deberiaLanzarExcepcion_cuandoEmailNoExiste(){
+    @DisplayName("login() → lanza ClienteNoEncontradoException cuando el email no existe")
+    public void login_deberiaLanzarExcepcion_cuandoEmailNoExiste() {
         LoginClienteDto dto = new LoginClienteDto("tilin@gmail.com", "secreto123");
-        /// El Objeto de entrada
 
         Mockito.when(clienteRepository.findByEmail(dto.email()))
                 .thenReturn(java.util.Optional.empty());
-        /// Cuando alguien llame a FindByEmail regresa Vacio (No existe el correo)
 
         assertThrows(ClienteExceptions.ClienteNoEncontradoException.class, () -> {
             clienteService.login(dto);
         });
-
     }
 
 
     @Test
+    @DisplayName("guardarCliente() → guarda cliente y carrito correctamente cuando el email no existe")
     public void guardarCliente_deberiaGuardarClienteYCarrito_cuandoEmailNoExiste() {
         // Given
         LoginClienteDto dto = new LoginClienteDto("nuevo@mail.com", "password123");
@@ -118,7 +121,6 @@ class ClienteServiceTest {
                 clienteConId.getEmail()
         );
 
-        // Simulaciones
         Mockito.when(clienteRepository.existsByEmail(dto.email())).thenReturn(false);
         Mockito.when(clienteMappers.DtoLoginACliente(dto)).thenReturn(clienteSinId);
         Mockito.when(clienteRepository.save(clienteSinId)).thenReturn(clienteConId);
@@ -142,6 +144,7 @@ class ClienteServiceTest {
 
 
     @Test
+    @DisplayName("guardarCliente() → lanza EmailYaExisteException cuando el email ya está registrado")
     public void guardarCliente_deberiaLanzarExcepcion_cuandoEmailYaExiste() {
         // Given
         LoginClienteDto dto = new LoginClienteDto("existente@mail.com", "cualquierpass");
@@ -153,7 +156,6 @@ class ClienteServiceTest {
             clienteService.guardarCliente(dto);
         });
 
-        // Verificar que NO se llamó a los otros métodos
         Mockito.verify(clienteRepository, Mockito.times(1)).existsByEmail(dto.email());
         Mockito.verify(clienteMappers, Mockito.never()).DtoLoginACliente(Mockito.any());
         Mockito.verify(clienteRepository, Mockito.never()).save(Mockito.any());
@@ -162,6 +164,7 @@ class ClienteServiceTest {
     }
 
     @Test
+    @DisplayName("guardarCliente() → lanza ErrorAlCrearCarritoException y hace rollback cuando falla guardar el carrito")
     public void guardarCliente_deberiaHacerRollback_cuandoFallaGuardarCarrito() {
         // Given
         LoginClienteDto dto = new LoginClienteDto("nuevo@mail.com", "pass");
@@ -176,11 +179,10 @@ class ClienteServiceTest {
         Mockito.when(carritoRepository.save(Mockito.any(Carrito.class)))
                 .thenThrow(new RuntimeException("Error de BD"));
 
-// When / Then
+        // When / Then
         assertThrows(CarritoExceptions.ErrorAlCrearCarritoException.class,
                 () -> clienteService.guardarCliente(dto));
 
-        // Verificar que NO se llama al mapper de respuesta (porque falló antes)
         Mockito.verify(clienteMappers, Mockito.never()).ClienteACreacion(Mockito.any());
     }
 }

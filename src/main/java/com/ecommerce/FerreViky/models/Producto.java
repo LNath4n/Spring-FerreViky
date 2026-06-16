@@ -1,6 +1,7 @@
 package com.ecommerce.FerreViky.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -59,8 +60,12 @@ public class Producto { //Cada objeto "producto" es una fila de la tabla product
     private String marca;
 
     // FK nullable: no todos los productos pertenecen a un GrupoDeProductos
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "producto_generico_id", nullable = true)
     private GrupoDeProductos grupoDeProductos;
+
+    @Column(name = "stock")
+    @Min(value = 0, message = "El valor debe ser mayor o igual a 0")
+    private Integer stock;
 
 }

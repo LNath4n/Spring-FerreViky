@@ -5,6 +5,9 @@ import com.ecommerce.FerreViky.dto.cliente.ClienteDTO.LoginClienteDto;
 import com.ecommerce.FerreViky.models.Cliente;
 import org.springframework.stereotype.Component;
 
+/**
+ * Mappers para convertir entre DTOs de cliente y la entidad {@link Cliente}.
+ */
 @Component
 public class ClienteMappers {
 
@@ -21,6 +24,13 @@ public class ClienteMappers {
         return cliente;
     }
 
+    /**
+     * Convierte una entidad {@link Cliente} al DTO de respuesta post-creación,
+     * exponiendo únicamente el id y email asignados.
+     *
+     * @param cliente entidad ya persistida con id generado
+     * @return DTO con los datos mínimos de confirmación al frontend
+     */
     public CreacionDeClienteRespuestaDto ClienteACreacion(Cliente cliente) {
         return new CreacionDeClienteRespuestaDto(
                 cliente.getId(), cliente.getEmail()

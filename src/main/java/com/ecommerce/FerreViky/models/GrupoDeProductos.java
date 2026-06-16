@@ -30,7 +30,6 @@ public class GrupoDeProductos {
     private String palabrasComunes;
 
     @OneToMany(mappedBy = "grupoDeProductos", cascade = CascadeType.ALL)
-    @BatchSize(size = 50)
     private List<Producto> estilos;
 
 }

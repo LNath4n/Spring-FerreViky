@@ -21,35 +21,60 @@ import org.springframework.stereotype.Service;
 import java.security.PublicKey;
 import java.util.List;
 import java.util.Optional;
-
 @AllArgsConstructor
 @Service
 public class ProductoService {
 
     private final ProductoRepository productoRepository;
-    private final GrupoDeProductosRepository  grupoDeProductosRepository;
+    private final GrupoDeProductosRepository grupoDeProductosRepository;
 
-    public Page<ProductoPublicoResponse> obtenerTodos(Pageable pageable){
+    /**
+     * Obtiene todos los productos paginados.
+     *
+     * @param pageable configuración de paginación y ordenamiento
+     * @return página de productos en formato público
+     */
+    public Page<ProductoPublicoResponse> obtenerTodos(Pageable pageable) {
         return productoRepository.findAll(pageable)
                 .map(ProductoMappers::toPublicoResponse);
     }
 
-    public ProductoPublicoResponse obtenerProductoPorId(Long id){
+    /**
+     * Obtiene un producto por su ID.
+     *
+     * @param id ID del producto a buscar
+     * @return producto encontrado en formato público
+     * @throws ProductosExceptions.ProductoNoEncontradoException si no existe el producto
+     */
+    public ProductoPublicoResponse obtenerProductoPorId(Long id) {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new ProductosExceptions.ProductoNoEncontradoException(id));
 
         return ProductoMappers.toPublicoResponse(producto);
     }
 
-    public Page<GrupoPublicoResponse> obtenerTodosLosGrupos(Pageable pageable){
-        return grupoDeProductosRepository.findAll(pageable).map(GrupoDeProductosMappers::toPublicoResponse);
+    /**
+     * Obtiene todos los grupos de productos paginados.
+     *
+     * @param pageable configuración de paginación y ordenamiento
+     * @return página de grupos en formato público
+     */
+    public Page<GrupoPublicoResponse> obtenerTodosLosGrupos(Pageable pageable) {
+        return grupoDeProductosRepository.findAll(pageable)
+                .map(GrupoDeProductosMappers::toPublicoResponse);
     }
 
-    public GrupoPublicoResponse obtenerGrupoPorId(Long id){
+    /**
+     * Obtiene un grupo de productos por su ID.
+     *
+     * @param id ID del grupo a buscar
+     * @return grupo encontrado en formato público
+     * @throws ProductosExceptions.ProductoNoEncontradoException si no existe el grupo
+     */
+    public GrupoPublicoResponse obtenerGrupoPorId(Long id) {
         GrupoDeProductos grupoDeProductos = grupoDeProductosRepository.findById(id)
                 .orElseThrow(() -> new ProductosExceptions.ProductoNoEncontradoException(id));
 
         return GrupoDeProductosMappers.toPublicoResponse(grupoDeProductos);
     }
-
 }

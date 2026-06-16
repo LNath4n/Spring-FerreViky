@@ -1,30 +1,18 @@
 package com.ecommerce.FerreViky.controller;
 
 import com.ecommerce.FerreViky.dto.GruposDeProductos.GruposDeProductosDTO.GrupoPublicoResponse;
-import com.ecommerce.FerreViky.dto.producto.ProductoDTO;
-import com.ecommerce.FerreViky.dto.producto.ProductoDTO;
-import com.ecommerce.FerreViky.models.Producto;
+import com.ecommerce.FerreViky.dto.producto.ProductoDTO.ProductoPublicoResponse;
 import com.ecommerce.FerreViky.service.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-import com.ecommerce.FerreViky.dto.producto.ProductoDTO.ProductoPublicoResponse;
-
-import java.net.URI;
-import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -36,6 +24,10 @@ public class ProductoController {
     private final ProductoService productoService;
 
     @GetMapping
+    @Operation(summary = "Listar todos los productos", description = "Retorna todos los productos del catálogo paginados")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Listado obtenido exitosamente")
+    })
     public Page<ProductoPublicoResponse> obtenerTodos(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
@@ -44,12 +36,20 @@ public class ProductoController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Obtener producto por ID", description = "Retorna un producto específico según su ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Producto encontrado"),
+            @ApiResponse(responseCode = "404", description = "Producto no encontrado")
+    })
     public ResponseEntity<ProductoPublicoResponse> obtenerPorId(@PathVariable Long id) {
-        ProductoPublicoResponse producto = productoService.obtenerProductoPorId(id);
-        return ResponseEntity.ok(producto);
+        return ResponseEntity.ok(productoService.obtenerProductoPorId(id));
     }
 
     @GetMapping("/grupos")
+    @Operation(summary = "Listar grupos de productos", description = "Retorna todos los grupos de productos paginados")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Listado obtenido exitosamente")
+    })
     public Page<GrupoPublicoResponse> obtenerTodosLosGrupos(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
@@ -58,8 +58,12 @@ public class ProductoController {
     }
 
     @GetMapping("/grupos/{id}")
+    @Operation(summary = "Obtener grupo por ID", description = "Retorna un grupo de productos y sus productos asociados")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Grupo encontrado"),
+            @ApiResponse(responseCode = "404", description = "Grupo no encontrado")
+    })
     public ResponseEntity<GrupoPublicoResponse> obtenerGrupoPorId(@PathVariable Long id) {
-        GrupoPublicoResponse grupoPublicoResponse = productoService.obtenerGrupoPorId(id);
-        return ResponseEntity.ok(grupoPublicoResponse);
+        return ResponseEntity.ok(productoService.obtenerGrupoPorId(id));
     }
 }
