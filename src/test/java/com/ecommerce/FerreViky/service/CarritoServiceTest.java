@@ -1,5 +1,6 @@
 package com.ecommerce.FerreViky.service;
 
+import com.ecommerce.FerreViky.dto.carrito.CarritoDTO;
 import com.ecommerce.FerreViky.dto.carrito.CarritoDTO.AgregarCarrito;
 import com.ecommerce.FerreViky.exceptions.carrito.CarritoExceptions;
 import com.ecommerce.FerreViky.exceptions.cliente.ClienteExceptions;
@@ -19,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -83,12 +85,21 @@ class CarritoServiceTest {
 
     @Test
     public void deberiaEncontrarCarrito(){
-        Cliente cliente = new Cliente(1L,"","");
+        Cliente cliente = new Cliente(1L, "nathan@gmail.com", "1234");
+
         Carrito carrito = new Carrito();
+        carrito.setId(1L);
+        carrito.setCliente(cliente);
+        carrito.setProductos(new ArrayList<>());
+        carrito.setFechaCreacion(LocalDateTime.now());
+
         when(carritoRepository.findByClienteId(cliente.getId())).thenReturn(Optional.of(carrito));
-        Carrito resultado = carritoService.obtenerCarritoPorId(cliente.getId());
+
+        CarritoDTO.CarritoResponseDTO resultado = carritoService.obtenerCarritoPorId(cliente.getId());
+
         assertNotNull(resultado);
-        assertEquals(carrito, resultado);
+        assertEquals(carrito.getId(), resultado.id());
+        assertEquals(cliente.getEmail(), resultado.emailCliente());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.ecommerce.FerreViky.controller;
 
+import com.ecommerce.FerreViky.dto.carrito.CarritoDTO;
 import com.ecommerce.FerreViky.dto.carrito.CarritoDTO.AgregarCarrito;
 import com.ecommerce.FerreViky.models.Carrito;
 import com.ecommerce.FerreViky.service.CarritoService;
@@ -45,8 +46,8 @@ public class CarritoController {
             @ApiResponse(responseCode = "404",description = "No se encontro  el carrito del cliente"),
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Carrito> obtenerCarritoPorId(@PathVariable Long id){
-        Carrito carrito = carritoService.obtenerCarritoPorId(id);
+    public ResponseEntity<CarritoDTO.CarritoResponseDTO> obtenerCarritoPorId(@PathVariable Long id){
+        CarritoDTO.CarritoResponseDTO carrito = carritoService.obtenerCarritoPorId(id);
         return ResponseEntity.ok(carrito);
     }
 }

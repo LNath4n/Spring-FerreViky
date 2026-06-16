@@ -1,9 +1,11 @@
 package com.ecommerce.FerreViky.service;
 
+import com.ecommerce.FerreViky.dto.carrito.CarritoDTO;
 import com.ecommerce.FerreViky.dto.carrito.CarritoDTO.AgregarCarrito;
 import com.ecommerce.FerreViky.exceptions.carrito.CarritoExceptions;
 import com.ecommerce.FerreViky.exceptions.cliente.ClienteExceptions;
 import com.ecommerce.FerreViky.exceptions.productos.ProductosExceptions;
+import com.ecommerce.FerreViky.mapper.carrito.CarritoMappers;
 import com.ecommerce.FerreViky.models.Carrito;
 import com.ecommerce.FerreViky.models.CarritoProducto;
 import com.ecommerce.FerreViky.models.Cliente;
@@ -114,8 +116,9 @@ public class CarritoService {
      * @return carrito encontrado
      * @throws CarritoExceptions.CarritoNoEncontrado si no existe carrito para ese cliente
      */
-    public Carrito obtenerCarritoPorId(Long id) {
-        return carritoRepository.findByClienteId(id)
+    public CarritoDTO.CarritoResponseDTO obtenerCarritoPorId(Long id) {
+        Carrito carrito = carritoRepository.findByClienteId(id)
                 .orElseThrow(() -> new CarritoExceptions.CarritoNoEncontrado(id));
+        return CarritoMappers.toCarritoResponseDTO(carrito);
     }
 }
