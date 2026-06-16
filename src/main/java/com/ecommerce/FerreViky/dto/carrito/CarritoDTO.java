@@ -26,7 +26,6 @@ public class CarritoDTO {
     ) {}
     public record CarritoResponseDTO(
             Long id,
-            String emailCliente,
             List<CarritoProductoDTO> productos,
             LocalDateTime fechaCreacion,
             BigDecimal subtotal

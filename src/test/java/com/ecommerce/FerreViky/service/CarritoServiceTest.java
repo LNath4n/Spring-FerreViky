@@ -99,7 +99,6 @@ class CarritoServiceTest {
 
         assertNotNull(resultado);
         assertEquals(carrito.getId(), resultado.id());
-        assertEquals(cliente.getEmail(), resultado.emailCliente());
     }
 
     @Test

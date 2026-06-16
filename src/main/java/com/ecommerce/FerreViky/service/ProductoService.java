@@ -35,7 +35,7 @@ public class ProductoService {
      * @return página de productos en formato público
      */
     public Page<ProductoPublicoResponse> obtenerTodos(Pageable pageable) {
-        return productoRepository.findAll(pageable)
+        return productoRepository.findAllWithGrupo(pageable)
                 .map(ProductoMappers::toPublicoResponse);
     }
 
@@ -60,8 +60,14 @@ public class ProductoService {
      * @return página de grupos en formato público
      */
     public Page<GrupoPublicoResponse> obtenerTodosLosGrupos(Pageable pageable) {
-        return grupoDeProductosRepository.findAll(pageable)
-                .map(GrupoDeProductosMappers::toPublicoResponse);
+        Page<GrupoDeProductos> pageGrupos = grupoDeProductosRepository.findAllPaged(pageable);
+        List<GrupoDeProductos> conEstilos = grupoDeProductosRepository.findWithEstilos(pageGrupos.getContent());
+
+        return pageGrupos.map(g ->
+                GrupoDeProductosMappers.toPublicoResponse(
+                        conEstilos.stream().filter(c -> c.getId().equals(g.getId())).findFirst().orElse(g)
+                )
+        );
     }
 
     /**

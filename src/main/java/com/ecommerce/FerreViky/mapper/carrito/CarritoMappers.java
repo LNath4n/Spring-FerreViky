@@ -31,7 +31,6 @@ public class CarritoMappers {
 
         return new CarritoDTO.CarritoResponseDTO(
                 carrito.getId(),
-                carrito.getCliente().getEmail(),
                 productos,
                 carrito.getFechaCreacion(),
                 subtotal
