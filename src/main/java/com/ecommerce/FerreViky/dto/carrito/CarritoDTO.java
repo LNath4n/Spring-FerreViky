@@ -9,8 +9,6 @@ import java.util.List;
 public class CarritoDTO {
 
     public record AgregarCarrito(
-            @Schema(description = "ID perteneciente al Cliente",example = "4")
-            Long idCliente,
             @Schema(description = "ID perteneciente al Producto",example = "2")
             Long idProducto,
             @Schema(description = "Cantidad del producto",example = "1")

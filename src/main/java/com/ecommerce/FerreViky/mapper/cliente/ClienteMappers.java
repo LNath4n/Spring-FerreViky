@@ -3,6 +3,7 @@ package com.ecommerce.FerreViky.mapper.cliente;
 import com.ecommerce.FerreViky.dto.cliente.ClienteDTO.CreacionDeClienteRespuestaDto;
 import com.ecommerce.FerreViky.dto.cliente.ClienteDTO.LoginClienteDto;
 import com.ecommerce.FerreViky.models.Cliente;
+import com.ecommerce.FerreViky.models.Rol;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,6 +22,7 @@ public class ClienteMappers {
         Cliente cliente = new Cliente();
         cliente.setEmail(loginClienteDto.email());
         cliente.setPassword(loginClienteDto.password());
+        cliente.setRol(Rol.USER);
         return cliente;
     }
 

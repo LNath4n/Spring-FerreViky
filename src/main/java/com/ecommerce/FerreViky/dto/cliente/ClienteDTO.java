@@ -22,4 +22,10 @@ public class ClienteDTO {
             @Schema(description = "Contraseña en texto plano (sin hashing por ahora)", example = "secreto123")
             @NotBlank String password
     ) {}
+
+    @Schema(description = "Retorna las credenciales de autenticacion")
+    public record AuthResponse(
+            String token
+    ){}
+
 }
