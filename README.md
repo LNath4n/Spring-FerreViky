@@ -103,5 +103,5 @@ Proyecto actualmente en pausa, pero decidí hacerlo público porque es una de la
 
 ## Autor
 
-**Nathan**
+**Nathan & Jaqueline**
 Full Stack Developer — Java/Spring Boot · Angular · Flutter · Python
